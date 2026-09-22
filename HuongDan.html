@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Hướng dẫn sử dụng · HCDC Procurement Tracking System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --teal: #008080;
+    --teal-light: #20B2AA;
+    --orange: #FF8C00;
+    --purple: #291B94;
+    --bg: #f4f7f6;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, "Lexend", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  a { color: var(--teal); }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 18px;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 10px; }
+  .backbtn {
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 8px;
+    width: 34px; height: 34px;
+    cursor: pointer;
+    color: var(--teal);
+  }
+  .backbtn:hover { background: #f0fbfa; }
+  .brand { font-weight: 700; color: var(--teal); font-size: 0.95rem; line-height: 1.2; }
+  .brand-sub { display: block; font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+
+  .audience-toggle {
+    display: flex;
+    background: #eef2f1;
+    border-radius: 999px;
+    padding: 3px;
+  }
+  .aud-btn {
+    border: none;
+    background: transparent;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .aud-btn.active { background: var(--teal); color: #fff; }
+
+  .topbar-search {
+    flex: 1;
+    min-width: 200px;
+    max-width: 420px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f4f7f6;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 7px 12px;
+    color: var(--muted);
+  }
+  .topbar-search input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+  .printbtn {
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .printbtn:hover { background: #f0fbfa; border-color: var(--teal); }
+
+  /* ---------- LAYOUT ---------- */
+  .layout {
+    display: flex;
+    max-width: 1320px;
+    margin: 0 auto;
+    align-items: flex-start;
+  }
+  .sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 61px;
+    max-height: calc(100vh - 61px);
+    overflow-y: auto;
+    padding: 22px 14px 40px 22px;
+  }
+  .sidebar-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  #tocNav a {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.87rem;
+    padding: 7px 10px;
+    border-radius: 8px;
+    line-height: 1.35;
+    margin-bottom: 1px;
+  }
+  #tocNav a:hover { background: #eef2f1; }
+  #tocNav a.active { background: #e6f5f4; color: var(--teal); font-weight: 700; }
+  #tocNav .toc-group {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--teal);
+    letter-spacing: 0.05em;
+    margin: 16px 0 4px 10px;
+  }
+  #tocNav .toc-group:first-child { margin-top: 4px; }
+
+  .content {
+    flex: 1;
+    min-width: 0;
+    padding: 30px 30px 90px 26px;
+  }
+
+  .doc-header {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 26px 30px;
+    margin-bottom: 26px;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .doc-header h1 { margin: 0 0 10px; font-size: 1.9rem; color: var(--ink); }
+  .doc-header .lead { margin: 0 0 6px; color: var(--muted); font-size: 0.98rem; }
+  .doc-header .updated { margin: 0; color: var(--muted); font-size: 0.82rem; }
+
+  .track-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 36px 0 18px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+  }
+  .track-divider::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--teal-light), transparent);
+  }
+
+  section.doc-section {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 30px;
+    margin-bottom: 20px;
+    scroll-margin-top: 76px;
+  }
+  section.doc-section > .sec-num {
+    display: inline-block;
+    background: var(--teal);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.78rem;
+    border-radius: 6px;
+    padding: 3px 9px;
+    margin-bottom: 10px;
+  }
+  section.doc-section h2 { margin: 0 0 6px; font-size: 1.35rem; }
+  section.doc-section .sec-desc { color: var(--muted); margin: 0 0 18px; font-size: 0.92rem; }
+  section.doc-section h3 { font-size: 1.05rem; margin: 22px 0 10px; color: var(--ink); }
+  section.doc-section p { line-height: 1.65; font-size: 0.94rem; }
+  section.doc-section ul, section.doc-section ol.plain { line-height: 1.7; font-size: 0.94rem; padding-left: 22px; }
+
+  /* ---------- TABLES ---------- */
+  table.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 20px;
+    font-size: 0.88rem;
+  }
+  table.doc-table th {
+    text-align: left;
+    background: #f4f7f6;
+    color: var(--muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  table.doc-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.doc-table tr:last-child td { border-bottom: none; }
+
+  /* ---------- CALLOUTS ---------- */
+  .callout {
+    display: flex;
+    gap: 12px;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  .callout i { margin-top: 2px; }
+  .callout b { display: block; margin-bottom: 2px; }
+  .callout-tip { background: #ecfdf3; color: #065f46; }
+  .callout-warning { background: #fff4e6; color: #9a4a00; }
+  .callout-note { background: #e6f5f4; color: #075e57; }
+  .callout-danger { background: #fdecec; color: #8a1c1c; }
+
+  /* ---------- STEPS ---------- */
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: stepnum; }
+  ol.steps > li {
+    counter-increment: stepnum;
+    position: relative;
+    padding: 4px 0 18px 42px;
+    font-size: 0.93rem;
+    line-height: 1.6;
+    border-left: 2px solid var(--border);
+    margin-left: 15px;
+  }
+  ol.steps > li:last-child { border-left-color: transparent; padding-bottom: 2px; }
+  ol.steps > li::before {
+    content: counter(stepnum);
+    position: absolute;
+    left: -15px;
+    top: 0;
+    width: 30px; height: 30px;
+    background: var(--teal);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.82rem;
+  }
+  ol.steps > li b { color: var(--ink); }
+
+  /* ---------- MOCK UI PANELS (minh hoạ thay screenshot) ---------- */
+  .mock {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 14px 0 20px;
+    background: #fbfcfc;
+  }
+  .mock-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal);
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .mock-bar.orange { background: var(--orange); }
+  .mock-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+  .mock-body { padding: 16px; }
+
+  .mock-kpis { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mock-kpi {
+    flex: 1;
+    min-width: 90px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px 6px;
+  }
+  .mock-kpi .n { font-size: 1.3rem; font-weight: 800; }
+  .mock-kpi .l { font-size: 0.65rem; color: var(--muted); font-weight: 700; letter-spacing: 0.04em; }
+
+  .mock-field { margin-bottom: 10px; }
+  .mock-field label { display: block; font-size: 0.72rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  .mock-field .box {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+    background: #fff;
+    color: #9ca3af;
+  }
+  .mock-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: var(--orange);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+  .mock-btn.teal { background: var(--teal); }
+
+  .mock-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .mock-row > div { flex: 1; min-width: 220px; }
+
+  /* ---------- STATUS BADGES (đúng màu app thật) ---------- */
+  .badge-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .st-ontrack { background: var(--teal-light); }
+  .st-late { background: var(--orange); }
+  .st-done { background: var(--purple); }
+  .st-cancel { background: #343a40; }
+  .st-wait { background: var(--orange); }
+
+  .kbd {
+    display: inline-block;
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 1px 7px;
+    font-size: 0.8rem;
+    font-family: monospace;
+    background: #f9fafb;
+  }
+
+  mark.hl { background: #fff2ac; border-radius: 2px; }
+
+  .audience-hide { display: none !important; }
+
+  /* ---------- PRINT ---------- */
+  @media print {
+    .topbar, .sidebar, .printbtn { display: none !important; }
+    .layout { display: block; }
+    .content { padding: 0; }
+    section.doc-section { break-inside: avoid; border: none; padding: 10px 0; }
+    body { background: #fff; }
+  }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .content { padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="backbtn" onclick="goBackToApp()" title="Quay lại ứng dụng">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <span class="brand">HCDC Procurement
+        <span class="brand-sub">Hướng dẫn sử dụng</span>
+      </span>
+    </div>
+
+    <div class="audience-toggle">
+      <button class="aud-btn active" id="btn-aud-user" onclick="setAudience('user')">
+        <i class="fas fa-user"></i> Người dùng
+      </button>
+      <button class="aud-btn" id="btn-aud-admin" onclick="setAudience('admin')">
+        <i class="fas fa-shield-halved"></i> Quản trị
+      </button>
+    </div>
+
+    <div class="topbar-search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchBox" placeholder="Tìm trong hướng dẫn..." oninput="onSearch()" />
+    </div>
+
+    <button class="printbtn" onclick="window.print()">
+      <i class="fas fa-print"></i> In / Lưu PDF
+    </button>
+  </header>
+
+  <div class="layout">
+
+    <!-- ================= MỤC LỤC ================= -->
+    <aside class="sidebar">
+      <div class="sidebar-title"><i class="fas fa-book"></i> MỤC LỤC</div>
+      <nav id="tocNav">
+        <div class="toc-group">Chung</div>
+        <a href="#gioi-thieu" data-audience="all">1. Giới thiệu chung</a>
+        <a href="#vai-tro" data-audience="all">2. Vai trò &amp; quyền hạn</a>
+        <a href="#khai-niem" data-audience="all">3. Các khái niệm cần biết</a>
+
+        <div class="toc-group">Người dùng</div>
+        <a href="#tao-goi-thau" data-audience="user">4. Tạo gói thầu mới</a>
+        <a href="#dashboard" data-audience="user">5. Xem Dashboard tổng quan</a>
+        <a href="#cap-nhat-tien-do" data-audience="user">6. Cập nhật tiến độ</a>
+        <a href="#gia-han" data-audience="user">7. Xin gia hạn công đoạn</a>
+        <a href="#chuyen-pha-2" data-audience="user">8. Chuyển sang Pha 2</a>
+        <a href="#huy-goi" data-audience="user">9. Huỷ gói thầu</a>
+        <a href="#thu-vien" data-audience="user">10. Thư viện tài liệu</a>
+        <a href="#faq" data-audience="user">11. Câu hỏi thường gặp</a>
+
+        <div class="toc-group">Quản trị</div>
+        <a href="#dang-nhap-admin" data-audience="admin">12. Đăng nhập khu vực Quản trị</a>
+        <a href="#cau-hinh-quy-trinh" data-audience="admin">13. Cấu hình Quy trình</a>
+        <a href="#quan-ly-thu-vien" data-audience="admin">14. Quản lý Thư viện tài liệu</a>
+        <a href="#nhat-ky" data-audience="admin">15. Nhật ký thao tác &amp; xuất báo cáo</a>
+        <a href="#bao-mat" data-audience="admin">16. Bảo mật &amp; lưu ý vận hành</a>
+      </nav>
+    </aside>
+
+    <!-- ================= NỘI DUNG ================= -->
+    <main class="content">
+
+      <div class="doc-header">
+        <div class="eyebrow">HCDC PROCUREMENT · HƯỚNG DẪN SỬ DỤNG</div>
+        <h1>Hướng dẫn sử dụng Hệ thống Theo dõi Tiến độ Gói thầu</h1>
+        <p class="lead">
+          Dành cho: Nhân sự khoa/phòng thực hiện gói thầu mua sắm và cán bộ Quản trị vận hành hệ thống của HCDC.
+        </p>
+        <p class="updated">Cập nhật ngày 22/09/2026</p>
+      </div>
+
+      <!-- 1. GIỚI THIỆU -->
+      <section class="doc-section" id="gioi-thieu" data-audience="all">
+        <span class="sec-num">1</span>
+        <h2>Giới thiệu chung</h2>
+        <p class="sec-desc">Hệ thống dùng để làm gì, và ai cần dùng.</p>
+
+        <p>
+          <b>HCDC Procurement Tracking System</b> giúp các khoa/phòng theo dõi tiến độ thực hiện
+          từng gói thầu mua sắm — từ lúc khởi tạo cho đến khi hoàn tất toàn bộ quy trình. Hệ thống
+          tự động tính hạn cho từng công đoạn, cảnh báo khi sắp/đã trễ hạn, và lưu vết toàn bộ
+          thao tác để phục vụ hậu kiểm.
+        </p>
+
+        <div class="callout callout-note">
+          <i class="fas fa-circle-info"></i>
+          <div>
+            <b>Không cần tài khoản Google hay đăng nhập cá nhân</b>
+            Bất kỳ ai có đường link đều xem được Dashboard và Thư viện tài liệu. Muốn cập nhật
+            tiến độ của <i>một</i> gói thầu cụ thể thì cần đúng <b>Mã gói thầu</b> + <b>Mã PIN</b>
+            của gói đó. Muốn vào khu vực Quản trị (Cài đặt quy trình / Nhật ký thao tác) thì cần
+            <b>mật khẩu Quản trị</b> do cán bộ phụ trách hệ thống cấp.
+          </div>
+        </div>
+
+        <h3>Hệ thống có 5 khu vực chính</h3>
+        <table class="doc-table">
+          <thead><tr><th>Tab trên thanh menu</th><th>Dùng để làm gì</th><th>Cần gì để vào</th></tr></thead>
+          <tbody>
+            <tr><td><b>DASHBOARD</b></td><td>Xem tổng quan số liệu, biểu đồ, bảng chi tiết mọi gói thầu</td><td>Không cần gì</td></tr>
+            <tr><td><b>TRACKING</b></td><td>Tạo gói thầu mới; cập nhật tiến độ, xin gia hạn, huỷ gói thầu đã có</td><td>Không cần gì để tạo mới · Cần Mã PIN để cập nhật</td></tr>
+            <tr><td><b>LIBRARY</b></td><td>Tra cứu, tải về biểu mẫu, văn bản, tài liệu tham khảo</td><td>Không cần gì</td></tr>
+            <tr><td><b>SETTINGS</b></td><td>Cấu hình các bước quy trình &amp; thời hạn; quản lý Thư viện</td><td>Mật khẩu Quản trị</td></tr>
+            <tr><td><b>HISTORY</b></td><td>Xem nhật ký toàn bộ thao tác trong hệ thống; xuất CSV</td><td>Mật khẩu Quản trị</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 2. VAI TRÒ -->
+      <section class="doc-section" id="vai-tro" data-audience="all">
+        <span class="sec-num">2</span>
+        <h2>Vai trò &amp; quyền hạn</h2>
+        <p class="sec-desc">Hai nhóm người dùng và những gì mỗi nhóm được làm.</p>
+
+        <table class="doc-table">
+          <thead><tr><th>Vai trò</th><th>Ai dùng</th><th>Xem và làm được gì</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Người dùng</b><br><span style="color:var(--muted)">(không cần mật khẩu)</span></td>
+              <td>Nhân sự khoa/phòng được phân công thực hiện gói thầu</td>
+              <td>
+                Xem Dashboard · Tạo gói thầu mới &amp; nhận PIN · Cập nhật tiến độ (cần đúng PIN
+                của gói) · Xin gia hạn · Chuyển Pha 2 · Huỷ gói thầu · Tra cứu &amp; tải tài liệu
+                trong Thư viện
+              </td>
+            </tr>
+            <tr>
+              <td><b>Quản trị</b><br><span style="color:var(--muted)">(cần mật khẩu Admin)</span></td>
+              <td>Cán bộ HCDC phụ trách vận hành hệ thống</td>
+              <td>
+                Tất cả quyền của Người dùng, cộng thêm: cấu hình các bước quy trình/thời hạn cho
+                từng hình thức mua sắm · quản lý danh mục &amp; đăng tài liệu vào Thư viện (kể cả
+                dạng liên kết) · xem Nhật ký thao tác toàn hệ thống · xuất báo cáo CSV
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-tip">
+          <i class="fas fa-lightbulb"></i>
+          <div>
+            <b>Mẹo</b>
+            Sau khi nhập đúng PIN ở khung <span class="kbd">PROGRESS UPDATE</span>, bạn có thể xin
+            gia hạn hoặc chuyển Pha 2 cho gói đó luôn trong cùng phiên làm việc — không phải
+            nhập lại PIN cho từng thao tác.
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. KHÁI NIỆM -->
+      <section class="doc-section" id="khai-niem" data-audience="all">
+        <span class="sec-num">3</span>
+        <h2>Các khái niệm cần biết</h2>
+        <p class="sec-desc">Đọc phần này trước — sẽ giúp các phần sau dễ hiểu hơn nhiều.</p>
+
+        <table class="doc-table">
+          <thead><tr><th>Khái niệm</th><th>Giải thích</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Mã gói thầu</b></td>
+              <td>Dạng <code>GT2026-0001</code>, hệ thống tự sinh tuần tự khi tạo gói mới, không bao giờ trùng.</td>
+            </tr>
+            <tr>
+              <td><b>Mã PIN</b></td>
+              <td>
+                Dãy 6 số ngẫu nhiên, cấp đúng <b>một lần</b> khi tạo gói thầu. Đây là "chìa khoá"
+                duy nhất để cập nhật tiến độ / xin gia hạn / huỷ gói của <i>chính gói đó</i> —
+                hãy lưu giữ và chia sẻ cẩn thận cho người phụ trách. Nhập sai PIN quá nhiều lần
+                liên tiếp sẽ bị khoá tạm.
+              </td>
+            </tr>
+            <tr>
+              <td><b>Pha 1 / Pha 2</b></td>
+              <td>
+                Một số hình thức mua sắm bắt đầu ở <b>Pha Chuẩn bị</b>. Sau khi hoàn tất bước
+                "Đăng tải KHLCNT", hệ thống mở khoá việc <b>chuyển sang Pha 2</b> — chọn hình thức
+                mua sắm chính thức (Chào hàng cạnh tranh, Đấu thầu rộng rãi, Chỉ định thầu rút
+                gọn, Chào giá trực tuyến rút gọn...) để tiếp tục chuỗi công đoạn còn lại.
+              </td>
+            </tr>
+            <tr>
+              <td><b>Ngày làm việc / Ngày lịch</b></td>
+              <td>
+                Mỗi công đoạn được cấu hình tính hạn theo một trong hai kiểu:
+                <b>Ngày làm việc</b> (bỏ qua Thứ Bảy, Chủ Nhật, ngày lễ) hoặc <b>Ngày lịch</b>
+                (tính tất cả các ngày liên tục).
+              </td>
+            </tr>
+            <tr>
+              <td><b>Hạn điều hành / Hạn kế hoạch</b></td>
+              <td>
+                <b>Hạn kế hoạch</b> là mốc gốc, tính từ ngày khởi tạo, không đổi — dùng để đánh
+                giá hiệu quả tổng thể. <b>Hạn điều hành</b> là mốc thực tế cần hoàn thành, có
+                cộng thêm số ngày đã được gia hạn — dùng để nhắc việc hằng ngày.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Trạng thái gói thầu</h3>
+        <p>
+          <span class="badge-status st-ontrack">Đang đúng hạn</span>
+          <span class="badge-status st-late">Trễ hạn</span>
+          <span class="badge-status st-done">Đã hoàn thành</span>
+          <span class="badge-status st-cancel">Đã hủy</span>
+          <span class="badge-status st-wait">Chờ cập nhật Hình thức Mua sắm</span>
+        </p>
+        <p style="color:var(--muted); font-size:0.85rem;">
+          Màu sắc này xuất hiện xuyên suốt Dashboard, bảng chi tiết và Thư viện — cứ thấy đúng màu
+          là biết ngay trạng thái, không cần đọc chữ.
+        </p>
+      </section>
+
+      <!-- ============ TRACK: NGƯỜI DÙNG ============ -->
+      <div class="track-divider" data-audience="user">NGƯỜI DÙNG</div>
+
+      <!-- 4. TẠO GÓI THẦU -->
+      <section class="doc-section" id="tao-goi-thau" data-audience="user">
+        <span class="sec-num">4</span>
+        <h2>Tạo gói thầu mới</h2>
+        <p class="sec-desc">Vào tab <b>TRACKING</b> → khung <b>PACKAGE INITIATION</b>.</p>
+
+        <div class="mock">
+          <div class="mock-bar"><span class="dot"></span> PACKAGE INITIATION</div>
+          <div class="mock-body">
+            <div class="mock-row">
+              <div>
+                <div class="mock-field"><label>TÊN GÓI THẦU</label><div class="box">Mua sắm hoá chất xét nghiệm...</div></div>
+                <div class="mock-field"><label>HÌNH THỨC</label><div class="box">Chuẩn bị - Hàng hóa/Dịch vụ</div></div>
+                <div class="mock-field"><label>NGƯỜI THỰC HIỆN + KHOA/PHÒNG</label><div class="box">+ Thêm người phụ trách</div></div>
+              </div>
+              <div>
+                <div class="mock-field"><label>NGÀY KHỞI TẠO</label><div class="box">22/09/2026</div></div>
+                <span class="mock-btn">SUBMIT &amp; GET PIN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ol class="steps">
+          <li>Nhập <b>Package Name</b> — đặt tên rõ ràng, dễ tìm lại sau này.</li>
+          <li>Chọn <b>Phase 1 Workflow</b> — hình thức/quy trình chuẩn bị ban đầu.</li>
+          <li>
+            Mục <b>Assignee(s)</b>: chọn Khoa/Phòng và Họ tên rồi bấm <b>Add</b>; có thể thêm
+            nhiều người/nhiều khoa phòng cùng phụ trách một gói.
+          </li>
+          <li>Chọn <b>Initiation Date</b> — mặc định là hôm nay; nếu gói đã thực tế bắt đầu từ trước, chọn đúng ngày quá khứ đó (không được chọn ngày tương lai).</li>
+          <li>
+            Bấm <b>SUBMIT &amp; GET PIN</b>. Hệ thống hiện ngay <b>Mã Gói Thầu</b> và <b>Mã PIN
+            6 số</b> — <span style="color:#b91c1c;font-weight:700;">chụp lại hoặc ghi ra ngay</span>,
+            vì màn hình này chỉ hiện một lần duy nhất.
+          </li>
+        </ol>
+
+        <div class="callout callout-danger">
+          <i class="fas fa-triangle-exclamation"></i>
+          <div>
+            <b>Quan trọng</b>
+            Hệ thống không có chức năng "xem lại PIN" cho người dùng thường. Nếu làm mất PIN,
+            liên hệ cán bộ Quản trị để được hỗ trợ.
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. DASHBOARD -->
+      <section class="doc-section" id="dashboard" data-audience="user">
+        <span class="sec-num">5</span>
+        <h2>Xem Dashboard tổng quan</h2>
+        <p class="sec-desc">Tab <b>DASHBOARD</b> — trang mặc định khi mở hệ thống.</p>
+
+        <h3>Các thẻ số liệu (KPI)</h3>
+        <div class="mock">
+          <div class="mock-body">
+            <div class="mock-kpis">
+              <div class="mock-kpi"><div class="n" style="color:var(--purple)">128</div><div class="l">TOTAL</div></div>
+              <div class="mock-kpi"><div class="n" style="color:var(--teal-light)">74</div><div class="l">ON TIME</div></div>
+              <div class="mock-kpi"><div class="n" style="color:var(--orange)">12</div><div class="l">OVERDUE</div></div>
+              <div class="mock-kpi"><div class="n" style="color:var(--purple)">38</div><div class="l">COMPLETED</div></div>
+              <div class="mock-kpi"><div class="n" style="color:var(--orange)">4</div><div class="l">AT RISK</div></div>
+            </div>
+          </div>
+        </div>
+        <p>
+          Mỗi thẻ <b>bấm được</b> — bấm vào để lọc ngay bảng chi tiết bên dưới theo đúng nhóm đó
+          (VD: bấm "OVERDUE" để chỉ xem các gói đang trễ hạn). Thẻ đang lọc sẽ có viền teal đậm;
+          bấm lại lần nữa để bỏ lọc. Thẻ "COMPLETED" có thêm dòng phụ "Cancelled" để xem riêng số
+          gói đã huỷ.
+        </p>
+
+        <h3>Cảnh báo sắp tới hạn</h3>
+        <p>
+          Khi có gói thầu sắp tới hạn (trong vòng 3 ngày) hoặc đã trễ hạn, một khung màu cam
+          <i class="fas fa-bell"></i> <b>UPCOMING DEADLINES</b> tự động hiện phía trên biểu đồ,
+          liệt kê từng gói kèm số ngày còn lại/đã trễ.
+        </p>
+
+        <h3>Biểu đồ &amp; phân tích</h3>
+        <ul>
+          <li><b>PACKAGE STATUS TODAY</b> — biểu đồ tròn tỉ lệ đúng hạn/trễ hạn/hoàn thành/huỷ.</li>
+          <li><b>PACKAGES BY STEP</b> — biểu đồ cột số gói thầu đang dừng ở từng công đoạn, giúp thấy ngay công đoạn nào đang "tắc".</li>
+          <li><b>PROCESS BOTTLENECKS</b> — so sánh thời gian quy định với thời gian thực tế trung bình của từng bước.</li>
+          <li><b>DELAY DISTRIBUTION</b> — phân bố mức độ chậm của các gói đã hoàn thành (sớm hạn / đúng hạn / chậm 1-7 ngày / 8-30 ngày / trên 30 ngày).</li>
+        </ul>
+
+        <h3>Bảng chi tiết &amp; bộ lọc</h3>
+        <p>
+          Khung <b>DETAILED PROGRESS</b> ở cuối trang liệt kê đầy đủ mọi gói thầu, lọc được theo
+          tháng khởi tạo, hình thức mua sắm, và từ khoá (tên/mã gói). Mỗi dòng có cột hồ sơ minh
+          chứng đính kèm — bấm vào để mở/tải trực tiếp.
+        </p>
+      </section>
+
+      <!-- 6. CẬP NHẬT TIẾN ĐỘ -->
+      <section class="doc-section" id="cap-nhat-tien-do" data-audience="user">
+        <span class="sec-num">6</span>
+        <h2>Cập nhật tiến độ công đoạn</h2>
+        <p class="sec-desc">Tab <b>TRACKING</b> → khung <b>PROGRESS UPDATE</b>.</p>
+
+        <div class="mock">
+          <div class="mock-bar orange"><span class="dot"></span> PROGRESS UPDATE</div>
+          <div class="mock-body">
+            <div class="mock-row">
+              <div>
+                <div class="mock-field"><label>MÃ GÓI THẦU</label><div class="box">GT2026-0001 - Mua hoá chất...</div></div>
+                <div class="mock-field"><label>MÃ PIN</label><div class="box">••••••</div></div>
+                <span class="mock-btn teal">CHECK PIN</span>
+              </div>
+              <div>
+                <div class="mock-field"><label>CÔNG ĐOẠN</label><div class="box">👉 Phê duyệt KHLCNT</div></div>
+                <div class="mock-field"><label>NGÀY HOÀN THÀNH</label><div class="box">22/09/2026</div></div>
+                <span class="mock-btn">SUBMIT</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ol class="steps">
+          <li><b>Chọn Mã Gói Thầu</b> cần cập nhật từ danh sách thả xuống.</li>
+          <li><b>Nhập đúng Mã PIN 6 số</b> đã nhận lúc tạo gói, bấm <b>Check PIN</b>.</li>
+          <li>
+            Sau khi PIN đúng, khu vực cập nhật mở ra với danh sách công đoạn:
+            <span style="color:#198754">✅ đã hoàn thành</span> (mờ đi, không chọn lại được),
+            <b>👉 bước tiếp theo</b> (duy nhất bước này chọn được),
+            <span style="color:var(--muted)">🔒 bước tương lai</span> (chưa tới lượt, khoá).
+          </li>
+          <li><b>Chọn Người thao tác</b> — chọn tên trong danh sách hoặc "Người khác" để tự gõ.</li>
+          <li><b>Chọn Ngày hoàn thành</b> thực tế — không được sớm hơn ngày hoàn thành của bước liền trước, không được là ngày tương lai.</li>
+          <li><b>Đính kèm minh chứng</b> (tối đa 5 file, tổng 20MB, mỗi file tối đa 10MB) rồi bấm <b>Confirm</b> ở hộp xác nhận hiện ra.</li>
+        </ol>
+
+        <div class="callout callout-warning">
+          <i class="fas fa-circle-exclamation"></i>
+          <div>
+            <b>Không sửa lại được sau khi nộp</b>
+            Một khi đã submit, bước đó không tự sửa được nữa — cần liên hệ Quản trị nếu nộp
+            nhầm. Vì vậy hãy kiểm tra kỹ ngày tháng và file đính kèm trước khi bấm Confirm.
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. GIA HẠN -->
+      <section class="doc-section" id="gia-han" data-audience="user">
+        <span class="sec-num">7</span>
+        <h2>Xin gia hạn công đoạn</h2>
+        <p class="sec-desc">Dùng khi một bước không thể hoàn thành đúng hạn vì lý do khách quan.</p>
+
+        <p>
+          Khi chọn một công đoạn đã quá hạn trong khung PROGRESS UPDATE, hệ thống hiện cảnh báo
+          màu cam kèm nút <b>"Switch to DEADLINE EXTENSION"</b> — bấm vào để mở hộp thoại xin
+          gia hạn (hoặc bấm trực tiếp icon <i class="fas fa-hourglass-half"></i> cạnh công đoạn đó
+          trong danh sách tiến độ chi tiết).
+        </p>
+
+        <ol class="steps">
+          <li>
+            <b>Chọn cách nhập</b>: theo <i>hạn mới</i> (chọn ngày cụ thể, hệ thống tự quy đổi ra
+            số ngày) hoặc theo <i>số ngày</i> muốn gia hạn thêm.
+          </li>
+          <li><b>Nhập lý do gia hạn</b> — bắt buộc, nên ghi rõ để phục vụ tra cứu sau này.</li>
+          <li><b>Đính kèm văn bản căn cứ</b> — bắt buộc (VD: công văn xin gia hạn, thông báo của nhà thầu...).</li>
+          <li>Bấm <b>CONFIRM</b>. Hạn điều hành của bước đó được cộng thêm số ngày tương ứng ngay lập tức.</li>
+        </ol>
+
+        <div class="callout callout-note">
+          <i class="fas fa-scale-balanced"></i>
+          <div>
+            <b>Gia hạn không "xoá" độ trễ</b>
+            Hạn <i>kế hoạch</i> (mốc gốc để đánh giá hiệu quả) không đổi khi gia hạn — chỉ hạn
+            <i>điều hành</i> (mốc nhắc việc hằng ngày) được nới ra. Nhờ vậy báo cáo cuối kỳ vẫn
+            phản ánh đúng gói nào thực sự chậm so với kế hoạch ban đầu.
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. CHUYỂN PHA 2 -->
+      <section class="doc-section" id="chuyen-pha-2" data-audience="user">
+        <span class="sec-num">8</span>
+        <h2>Chuyển sang Pha 2 (chọn hình thức mua sắm chính thức)</h2>
+        <p class="sec-desc">Chỉ xuất hiện khi gói thầu đủ điều kiện.</p>
+
+        <p>
+          Tab phụ <b>"PROCEED TO PHASE 2"</b> (viền cam) chỉ hiện ra trong khung PROGRESS UPDATE khi gói
+          thầu đang ở Pha Chuẩn bị <i>và</i> đã hoàn thành bước "Đăng tải KHLCNT". Khi đó:
+        </p>
+        <ol class="steps">
+          <li>Mở tab <b>PROCEED TO PHASE 2</b>, chọn <b>Hình thức mua sắm Pha 2</b> phù hợp trong danh sách.</li>
+          <li>Bấm <b>UPDATE CONFIGURATION</b>. Hệ thống tự nạp lại chuỗi công đoạn còn lại theo đúng hình thức vừa chọn.</li>
+          <li>Sau khi chuyển, tab này tự ẩn đi và hệ thống quay về khung cập nhật tiến độ bình thường với công đoạn tiếp theo của Pha 2.</li>
+        </ol>
+      </section>
+
+      <!-- 9. HUỶ GÓI -->
+      <section class="doc-section" id="huy-goi" data-audience="user">
+        <span class="sec-num">9</span>
+        <h2>Huỷ gói thầu</h2>
+        <p class="sec-desc">Dùng khi gói thầu không còn được thực hiện tiếp.</p>
+
+        <ol class="steps">
+          <li>Trong khung PROGRESS UPDATE (sau khi Check PIN thành công), bấm <b>"Cancel this package"</b>.</li>
+          <li><b>Nhập lý do huỷ</b> — bắt buộc.</li>
+          <li><b>Đính kèm văn bản căn cứ</b> — bắt buộc, không huỷ được nếu thiếu.</li>
+          <li>Xác nhận. Gói chuyển sang trạng thái <span class="badge-status st-cancel">Đã hủy</span> ngay lập tức, không hoàn tác được qua giao diện thường.</li>
+        </ol>
+        <div class="callout callout-warning">
+          <i class="fas fa-ban"></i>
+          <div>
+            <b>Không huỷ được nếu…</b>
+            Gói đã ở trạng thái <span class="badge-status st-done">Đã hoàn thành</span> hoặc đã
+            <span class="badge-status st-cancel">Đã hủy</span> từ trước.
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. THƯ VIỆN -->
+      <section class="doc-section" id="thu-vien" data-audience="user">
+        <span class="sec-num">10</span>
+        <h2>Thư viện tài liệu</h2>
+        <p class="sec-desc">Tab <b>LIBRARY</b> — tra cứu, không cần đăng nhập gì.</p>
+
+        <div class="mock">
+          <div class="mock-bar"><span class="dot"></span> DOCUMENT LIBRARY</div>
+          <div class="mock-body">
+            <div class="mock-field"><label>TÌM KIẾM</label><div class="box"><i class="fas fa-search"></i> Nhập tên hoặc mô tả tài liệu...</div></div>
+            <p style="margin:10px 0 4px;">
+              <span class="badge-status" style="background:var(--teal)">Tất cả</span>
+              <span class="badge-status" style="background:#9ca3af">Biểu mẫu/Template</span>
+              <span class="badge-status" style="background:#9ca3af">Văn bản pháp luật</span>
+              <span class="badge-status" style="background:#9ca3af">Hướng dẫn nội bộ</span>
+            </p>
+          </div>
+        </div>
+
+        <ol class="plain">
+          <li>Gõ từ khoá vào ô tìm kiếm — lọc ngay theo tiêu đề/mô tả, không cần bấm Enter.</li>
+          <li>Hoặc bấm vào một chip danh mục để chỉ xem tài liệu thuộc danh mục đó.</li>
+          <li>Mỗi thẻ tài liệu hiện tiêu đề, danh mục, mô tả, ngày đăng, và nút tải cho từng file/liên kết đính kèm — bấm để mở ở tab mới.</li>
+        </ol>
+      </section>
+
+      <!-- 11. FAQ -->
+      <section class="doc-section" id="faq" data-audience="user">
+        <span class="sec-num">11</span>
+        <h2>Câu hỏi thường gặp</h2>
+
+        <h3>Tôi làm mất Mã PIN thì sao?</h3>
+        <p>Người dùng thường không tự xem lại PIN được. Liên hệ cán bộ Quản trị để được hỗ trợ.</p>
+
+        <h3>Vì sao tôi không chọn được công đoạn tiếp theo?</h3>
+        <p>Hệ thống chỉ mở khoá đúng một bước — bước liền sau bước đã hoàn thành gần nhất. Phải hoàn thành xong bước hiện tại mới thấy bước kế tiếp mở ra.</p>
+
+        <h3>Tôi nộp nhầm ngày hoàn thành, sửa lại được không?</h3>
+        <p>Không tự sửa được qua giao diện thường (đây là quy định vận hành để đảm bảo dữ liệu không bị chỉnh sửa tuỳ tiện). Liên hệ Quản trị để được hỗ trợ đính chính, có ghi lại trong Nhật ký thao tác.</p>
+
+        <h3>Gói của tôi bị đánh "Trễ hạn" dù tôi đang xử lý, phải làm sao?</h3>
+        <p>Nếu có lý do khách quan và văn bản căn cứ, hãy dùng chức năng <a href="#gia-han">Xin gia hạn công đoạn</a> thay vì chờ nộp trễ.</p>
+      </section>
+
+      <!-- ============ TRACK: QUẢN TRỊ ============ -->
+      <div class="track-divider" data-audience="admin">QUẢN TRỊ</div>
+
+      <!-- 12. ĐĂNG NHẬP ADMIN -->
+      <section class="doc-section" id="dang-nhap-admin" data-audience="admin">
+        <span class="sec-num">12</span>
+        <h2>Đăng nhập khu vực Quản trị</h2>
+        <p class="sec-desc">Áp dụng cho cả tab <b>SETTINGS</b> và tab <b>HISTORY</b>.</p>
+
+        <ol class="steps">
+          <li>Mở tab <b>SETTINGS</b> hoặc <b>HISTORY</b> — màn hình khoá hiện ra với ô nhập mật khẩu.</li>
+          <li>Nhập đúng mật khẩu Quản trị, bấm <b>Unlock</b>.</li>
+          <li>Nội dung quản trị hiện ra; phiên đăng nhập tự động hết hạn sau một thời gian không thao tác — hệ thống sẽ tự khoá lại và báo cho bạn biết.</li>
+          <li>Bấm <b>"I am The Lock" </b> bất cứ lúc nào để chủ động khoá lại ngay, nên làm việc này trước khi rời máy tính dùng chung.</li>
+        </ol>
+
+        <div class="callout callout-warning">
+          <i class="fas fa-user-lock"></i>
+          <div>
+            <b>Chống dò mật khẩu</b>
+            Nhập sai mật khẩu quá nhiều lần liên tiếp sẽ bị khoá tạm một khoảng thời gian, kể cả
+            khi tải lại trang.
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. CẤU HÌNH QUY TRÌNH -->
+      <section class="doc-section" id="cau-hinh-quy-trinh" data-audience="admin">
+        <span class="sec-num">13</span>
+        <h2>Cấu hình Quy trình</h2>
+        <p class="sec-desc">Tab SETTINGS → khung <b>"Establishing a Timeframe Structure"</b>.</p>
+
+        <p>
+          Đây là nơi định nghĩa <b>các bước</b>, <b>thời hạn</b> và <b>thứ tự phụ thuộc</b> cho
+          từng hình thức mua sắm — toàn bộ tính toán hạn điều hành/kế hoạch trên Dashboard đều
+          dựa vào cấu hình này.
+        </p>
+
+        <ol class="steps">
+          <li><b>Chọn cấu hình</b> (hình thức mua sắm) cần chỉnh ở ô "Choose a Configuration" trên cùng.</li>
+          <li>
+            <b>Thêm một bước mới</b>: nhập Tên Công Đoạn, Số ngày quy định, Loại Ngày (Ngày làm
+            việc / Ngày lịch), và bước nó "Bắt đầu sau khi xong" (bước liền trước — chọn
+            "Đây là bước đầu tiên" nếu là bước khởi đầu chuỗi).
+          </li>
+          <li>Bấm <b>Add</b> để thêm vào bảng bên dưới. Có thể <b>Edit</b>/<b>Del</b> từng dòng đã có.</li>
+          <li>Xem lại sơ đồ trực quan ở khung "Workflow Visualization" phía trên — dùng nút Prev/Next để lướt qua các cấu hình, hoặc Print để in sơ đồ.</li>
+          <li>
+            Sau khi chỉnh xong <b>toàn bộ</b> các bước cần thiết, bấm <b>SUBMIT</b> ở cuối bảng —
+            hệ thống kiểm tra hợp lệ (tên không trống, không trùng mã bước, số ngày trong khoảng
+            cho phép) rồi mới ghi đè toàn bộ cấu hình.
+          </li>
+        </ol>
+
+        <div class="callout callout-danger">
+          <i class="fas fa-triangle-exclamation"></i>
+          <div>
+            <b>SUBMIT là ghi đè toàn bộ</b>
+            Thao tác Submit áp dụng cho <i>tất cả</i> các bước đang hiển thị trong bảng tại thời
+            điểm bấm, không phải chỉ dòng vừa sửa. Hãy rà soát kỹ bảng trước khi Submit, và cân
+            nhắc chỉnh vào giờ ít người đang cập nhật tiến độ.
+          </div>
+        </div>
+      </section>
+
+      <!-- 14. QUẢN LÝ THƯ VIỆN -->
+      <section class="doc-section" id="quan-ly-thu-vien" data-audience="admin">
+        <span class="sec-num">14</span>
+        <h2>Quản lý Thư viện tài liệu</h2>
+        <p class="sec-desc">Tab SETTINGS → khung <b>"Document Library Management"</b> (cuộn xuống dưới cùng).</p>
+
+        <h3>Quản lý danh mục</h3>
+        <ol class="steps">
+          <li>Gõ tên danh mục mới vào ô, bấm <b>Add</b>.</li>
+          <li>
+            Bấm biểu tượng bút chì để <b>đổi tên</b> — vì tài liệu tham chiếu danh mục theo mã
+            nội bộ, đổi tên không ảnh hưởng tới các tài liệu đã đăng trước đó.
+          </li>
+          <li>
+            Bấm <b>Hide</b> để ẩn danh mục không còn dùng. Hệ thống <b>không cho ẩn</b> nếu vẫn
+            còn tài liệu đang hoạt động thuộc danh mục đó — cần chuyển/ẩn các tài liệu trước.
+            Bấm <b>Restore</b> để khôi phục một danh mục đã ẩn.
+          </li>
+        </ol>
+
+        <h3>Đăng tài liệu mới</h3>
+        <p>Có 2 chế độ, chọn bằng nút gạt phía trên form:</p>
+        <div class="mock-row">
+          <div class="mock">
+            <div class="mock-bar"><i class="fas fa-file-upload"></i> Upload file</div>
+            <div class="mock-body" style="font-size:0.85rem;">
+              Dùng khi bạn có sẵn file (PDF, Word, Excel...) trên máy — tối đa 5 file, tổng 20MB,
+              mỗi file tối đa 10MB. Hệ thống tự lưu vào thư mục Drive riêng của Thư viện và cấp
+              quyền xem công khai cho từng file.
+            </div>
+          </div>
+          <div class="mock">
+            <div class="mock-bar orange"><i class="fas fa-link"></i> Link to a page</div>
+            <div class="mock-body" style="font-size:0.85rem;">
+              Dùng khi tài liệu đã là một trang/link có sẵn (VD: chính trang Hướng dẫn sử dụng
+              này, một Google Doc/Site đã chia sẻ công khai...). Chỉ cần dán URL, không upload
+              file nào cả.
+            </div>
+          </div>
+        </div>
+
+        <ol class="steps">
+          <li>Nhập <b>Title</b> và chọn <b>Category</b> (bắt buộc cho cả 2 chế độ).</li>
+          <li>(Tuỳ chọn) chọn <b>Related package</b> nếu tài liệu gắn với một gói thầu cụ thể (VD: hồ sơ mẫu tham khảo).</li>
+          <li>Điền <b>Description</b> và <b>Uploaded by</b>.</li>
+          <li>Ở chế độ file: chọn file. Ở chế độ link: dán URL (phải bắt đầu bằng http:// hoặc https://) và đặt nhãn nút bấm.</li>
+          <li>Bấm <b>Upload</b>. Tài liệu xuất hiện ngay trong tab LIBRARY công khai.</li>
+        </ol>
+
+        <div class="callout callout-tip">
+          <i class="fas fa-book-open"></i>
+          <div>
+            <b>Đăng nhanh chính trang hướng dẫn này vào Thư viện</b>
+            Bấm nút <span class="kbd">Quick-add: User Guide</span> phía trên form — hệ thống tự
+            lấy đúng URL đang hoạt động của trang này và đăng vào danh mục bạn đang chọn, không
+            cần copy/paste URL thủ công.
+          </div>
+        </div>
+
+        <h3>Quản lý tài liệu đã đăng</h3>
+        <p>
+          Bảng "Existing Documents" liệt kê mọi tài liệu (kể cả đã ẩn). Bấm biểu tượng bút chì để
+          sửa tiêu đề/danh mục/mô tả; bấm biểu tượng con mắt để <b>Ẩn</b> (gỡ khỏi trang công
+          khai nhưng không xoá dữ liệu, khôi phục lại được bất cứ lúc nào) hoặc <b>Hiện lại</b>.
+        </p>
+      </section>
+
+      <!-- 15. NHẬT KÝ -->
+      <section class="doc-section" id="nhat-ky" data-audience="admin">
+        <span class="sec-num">15</span>
+        <h2>Nhật ký thao tác &amp; xuất báo cáo</h2>
+        <p class="sec-desc">Tab <b>HISTORY</b> → khung <b>AUDIT LOG</b>.</p>
+
+        <p>
+          Ghi lại <b>mọi</b> thao tác quan trọng trong hệ thống: tạo gói, nộp tiến độ, gia hạn,
+          chuyển pha, huỷ gói, sửa ngày khởi tạo, đăng nhập quản trị (thành công/thất bại), thay
+          đổi Thư viện tài liệu...
+        </p>
+
+        <ol class="steps">
+          <li>Lọc theo khoảng thời gian, mã gói thầu/từ khoá, người thao tác, hoặc loại hành động.</li>
+          <li>Xem theo trang (mỗi trang tối đa 500 dòng để không làm chậm trình duyệt).</li>
+          <li>Bấm <b>Export CSV</b> để tải toàn bộ kết quả đang lọc ra file CSV (không giới hạn theo trang) — dùng cho báo cáo, hậu kiểm.</li>
+        </ol>
+      </section>
+
+      <!-- 16. BẢO MẬT -->
+      <section class="doc-section" id="bao-mat" data-audience="admin">
+        <span class="sec-num">16</span>
+        <h2>Bảo mật &amp; lưu ý vận hành</h2>
+
+        <ul>
+          <li><b>Mật khẩu Quản trị</b> nên đổi định kỳ và không chia sẻ rộng rãi; hệ thống tự khoá tạm sau nhiều lần nhập sai liên tiếp.</li>
+          <li><b>Phiên đăng nhập Quản trị</b> tự hết hạn sau một khoảng thời gian không thao tác — luôn bấm khoá lại khi rời máy dùng chung.</li>
+          <li><b>Mã PIN gói thầu</b> cũng bị khoá tạm sau nhiều lần nhập sai liên tiếp cho cùng một gói, để chống dò PIN hàng loạt.</li>
+          <li>
+            <b>"Xoá" trong hệ thống luôn là ẨN</b>, không xoá cứng dữ liệu — áp dụng cho danh mục
+            và tài liệu Thư viện. Có thể khôi phục lại bất cứ lúc nào qua nút Restore.
+          </li>
+          <li>
+            <b>Sửa Ngày Khởi Tạo</b> của một gói thầu đã nhập sai là thao tác kỹ thuật, thực hiện
+            trực tiếp từ Databse bởi người quản trị hệ thống, có ghi log đầy đủ.
+          </li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // ---------- Quay lại ứng dụng chính ----------
+    // Trang này chạy độc lập được ở cả 2 nơi:
+    //  (1) Tự host trong Apps Script, phục vụ qua ?page=huongdan
+    //  (2) File tĩnh trên GitHub Pages (không có gì phía sau, một file HTML thuần)
+    // Ở trường hợp (2) không có query string ?page= để mà bỏ đi, nên quay thẳng
+    // về đúng trang chính của ứng dụng — domain gọn gàng, không lộ script.google.com.
+    var APP_URL = 'https://hcdc-ap.github.io/tiendothau/';
+
+    function goBackToApp() {
+      if (window.location.search.indexOf('page=huongdan') > -1) {
+        // Đang chạy trong Apps Script: bỏ query string để doGet() trả về trang chính
+        window.location.href = window.location.href.split('?')[0];
+      } else {
+        // Đang chạy độc lập (VD: GitHub Pages) — quay thẳng về app
+        window.location.href = APP_URL;
+      }
+    }
+
+    // ---------- Chuyển đổi Người dùng / Quản trị ----------
+    var currentAudience = 'user';
+
+    function setAudience(aud) {
+      currentAudience = aud;
+      document.getElementById('btn-aud-user').classList.toggle('active', aud === 'user');
+      document.getElementById('btn-aud-admin').classList.toggle('active', aud === 'admin');
+      applyAudienceFilter();
+    }
+
+    function applyAudienceFilter() {
+      var q = document.getElementById('searchBox').value.trim();
+      document.querySelectorAll('[data-audience]').forEach(function(el) {
+        var a = el.getAttribute('data-audience');
+        var matchAudience = (a === 'all' || a === currentAudience);
+        // Khi đang tìm kiếm, việc ẩn/hiện theo audience tạm nhường cho kết quả tìm kiếm
+        if (!q) {
+          el.classList.toggle('audience-hide', !matchAudience);
+        }
+      });
+    }
+
+    // ---------- Tìm kiếm trong trang ----------
+    function onSearch() {
+      var q = document.getElementById('searchBox').value.trim().toLowerCase();
+      var sections = document.querySelectorAll('section.doc-section');
+      var tocLinks = document.querySelectorAll('#tocNav a');
+
+      if (!q) {
+        applyAudienceFilter();
+        tocLinks.forEach(function(a) {
+          var aud = a.getAttribute('data-audience');
+          a.parentElement && (a.parentElement.style.display = '');
+          a.style.display = (aud === 'all' || aud === currentAudience) ? '' : 'none';
+        });
+        clearHighlights();
+        return;
+      }
+
+      clearHighlights();
+      sections.forEach(function(sec) {
+        var text = sec.innerText.toLowerCase();
+        var match = text.indexOf(q) > -1;
+        sec.classList.toggle('audience-hide', !match);
+        if (match) highlightText(sec, q);
+      });
+      tocLinks.forEach(function(a) {
+        var target = document.getElementById(a.getAttribute('href').slice(1));
+        a.style.display = (target && !target.classList.contains('audience-hide')) ? '' : 'none';
+      });
+    }
+
+    function clearHighlights() {
+      document.querySelectorAll('mark.hl').forEach(function(m) {
+        var parent = m.parentNode;
+        parent.replaceChild(document.createTextNode(m.textContent), m);
+        parent.normalize();
+      });
+    }
+
+    function highlightText(root, q) {
+      var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      var nodes = [];
+      var n;
+      while ((n = walker.nextNode())) nodes.push(n);
+      nodes.forEach(function(node) {
+        var idx = node.textContent.toLowerCase().indexOf(q);
+        if (idx === -1) return;
+        var span = document.createElement('span');
+        var before = node.textContent.slice(0, idx);
+        var match = node.textContent.slice(idx, idx + q.length);
+        var after = node.textContent.slice(idx + q.length);
+        span.appendChild(document.createTextNode(before));
+        var mark = document.createElement('mark');
+        mark.className = 'hl';
+        mark.textContent = match;
+        span.appendChild(mark);
+        span.appendChild(document.createTextNode(after));
+        node.parentNode.replaceChild(span, node);
+      });
+    }
+
+    // ---------- Mục lục: cuộn mượt + đánh dấu mục đang xem ----------
+    document.querySelectorAll('#tocNav a').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.getElementById(a.getAttribute('href').slice(1));
+        if (!target) return;
+        if (target.classList.contains('audience-hide')) {
+          // Mục thuộc track khác — tự chuyển audience trước khi cuộn tới
+          var aud = target.getAttribute('data-audience');
+          if (aud === 'user' || aud === 'admin') setAudience(aud);
+        }
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + target.id);
+      });
+    });
+
+    var sectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        var link = document.querySelector('#tocNav a[href="#' + entry.target.id + '"]');
+        if (!link) return;
+        if (entry.isIntersecting) {
+          document.querySelectorAll('#tocNav a.active').forEach(function(l) { l.classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    document.querySelectorAll('section.doc-section').forEach(function(sec) { sectionObserver.observe(sec); });
+
+    // ---------- Khởi tạo ----------
+    applyAudienceFilter();
+    if (window.location.hash) {
+      var initial = document.getElementById(window.location.hash.slice(1));
+      if (initial) {
+        var aud = initial.getAttribute('data-audience');
+        if (aud === 'user' || aud === 'admin') setAudience(aud);
+        setTimeout(function() { initial.scrollIntoView({ block: 'start' }); }, 50);
+      }
+    }
+  </script>
+</body>
+</html>
